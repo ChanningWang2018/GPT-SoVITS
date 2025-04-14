@@ -1,6 +1,6 @@
 # modified from https://github.com/feng-yufei/shared_debugging_code/blob/main/train_t2s.py
 import os
-import faulthander
+import faulthandler
 faulthandler.enable()
 
 if "_CUDA_VISIBLE_DEVICES" in os.environ:
