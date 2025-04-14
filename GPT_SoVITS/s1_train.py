@@ -1,5 +1,7 @@
 # modified from https://github.com/feng-yufei/shared_debugging_code/blob/main/train_t2s.py
 import os
+import faulthander
+faulthandler.enable()
 
 if "_CUDA_VISIBLE_DEVICES" in os.environ:
     os.environ["CUDA_VISIBLE_DEVICES"] = os.environ["_CUDA_VISIBLE_DEVICES"]
@@ -9,19 +11,21 @@ import platform
 from pathlib import Path
 
 import torch
-from AR.data.data_module import Text2SemanticDataModule
-from AR.models.t2s_lightning_module import Text2SemanticLightningModule
-from AR.utils.io import load_yaml_config
+
 from pytorch_lightning import Trainer, seed_everything
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import TensorBoardLogger  # WandbLogger
 from pytorch_lightning.strategies import DDPStrategy
+
 
 logging.getLogger("numba").setLevel(logging.WARNING)
 logging.getLogger("matplotlib").setLevel(logging.WARNING)
 torch.set_float32_matmul_precision("high")
 from collections import OrderedDict
 
+from AR.data.data_module import Text2SemanticDataModule
+from AR.models.t2s_lightning_module import Text2SemanticLightningModule
+from AR.utils.io import load_yaml_config
 from AR.utils import get_newest_ckpt
 from process_ckpt import my_save
 
